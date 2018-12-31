@@ -1,0 +1,10 @@
+*.o
+*.swp
+*~
+*.dis
+inc/version.h
+ctags
+tags
+src/test
+types_c.taghl
+.deps
