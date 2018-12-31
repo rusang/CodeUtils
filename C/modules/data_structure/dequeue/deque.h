@@ -1,6 +1,6 @@
 /* An implementation of a Double Ended Queue.
  * Pushes, peeks, and pops from both ends can be done and
- * an allocate and free function is provided to instantiate a 
+ * an allocate and free function is provided to instantiate a
  * deque.  As the implementation of the deque struct is in the
  * source file "deque.c" it is required that the deque_alloc function
  * be used to create a new deque providing a form of encapsulation.
@@ -9,21 +9,34 @@
 #define DEQUE_H
 #include <stdbool.h>
 
-/* deque_type is a deque object that the deque_foo functions
- * act upon.  New deque_type objects can be created with deque_alloc.
- */
-typedef struct deque_struct deque_type;
-
 /* This deque_val_type is the type of all values stored in the deque.
  * Change this to the type you want to store in your deque.
  */
 typedef int deque_val_type;
 
+/* deque_type is a deque object that the deque_foo functions
+ * act upon.  New deque_type objects can be created with deque_alloc.
+ */
+typedef struct deque_struct deque_type;
+
+struct node_struct {
+    struct node_struct *next;
+    struct node_struct *prev;
+    deque_val_type val;
+};
+
+struct deque_struct {
+    struct node_struct *head;
+    struct node_struct *tail;
+};
+
+#define DEQUE_HEAD(name) struct deque_struct name = {NULL, NULL}
+
 /* Instantiates a new deque_type.
  * Returns a pointer to a new deque_type with memory allocated by malloc,
  * returns NULL if it fails.
  */
-deque_type * deque_alloc();
+deque_type *deque_alloc();
 
 /* Frees a deque_type pointed to by *d */
 void deque_free(deque_type *d);
