@@ -2,25 +2,25 @@
 #include "common.h"
 
 #if defined(__linux__)
-pid_t 
-gettid(void) 
+pid_t
+gettid(void)
 {
-    return (pid_t) syscall(SYS_gettid);
+	return (pid_t) syscall(SYS_gettid);
 }
 
 void
-pin(pid_t t, int cpu) 
+pin(pid_t t, int cpu)
 {
-    cpu_set_t cpuset;
-    CPU_ZERO(&cpuset);
-    CPU_SET(cpu, &cpuset);
-    E_en(sched_setaffinity(t, sizeof(cpu_set_t), &cpuset));
+	cpu_set_t cpuset;
+	CPU_ZERO(&cpuset);
+	CPU_SET(cpu, &cpuset);
+	E_en(sched_setaffinity(t, sizeof(cpu_set_t), &cpuset));
 }
 
 void
 gettime(struct timespec *ts)
 {
-    E(clock_gettime(CLOCK_MONOTONIC, ts));
+	E(clock_gettime(CLOCK_MONOTONIC, ts));
 }
 
 #endif
@@ -29,18 +29,15 @@ gettime(struct timespec *ts)
 void
 gettime(struct timespec *ts)
 {
-    uint64_t time = mach_absolute_time();
+	uint64_t time = mach_absolute_time();
+	static mach_timebase_info_data_t info = {0, 0};
 
-    static mach_timebase_info_data_t info = {0,0};
+	if (info.denom == 0)
+		mach_timebase_info(&info);
 
-    if (info.denom == 0)  {
-	mach_timebase_info(&info);
-    }
-
-    uint64_t elapsed = time * (info.numer / info.denom);
-
-    ts->tv_sec = elapsed * 1e-9;
-    ts->tv_nsec = elapsed - (ts->tv_sec * 1e9);
+	uint64_t elapsed = time * (info.numer / info.denom);
+	ts->tv_sec = elapsed * 1e-9;
+	ts->tv_nsec = elapsed - (ts->tv_sec * 1e9);
 }
 #endif
 
@@ -48,30 +45,29 @@ gettime(struct timespec *ts)
 
 
 struct timespec
-timediff (struct timespec begin, struct timespec end)
+timediff(struct timespec begin, struct timespec end)
 {
-    struct timespec tmp;
-    if ((end.tv_nsec - begin.tv_nsec) < 0) {
-	tmp.tv_sec = end.tv_sec - begin.tv_sec - 1;
-	tmp.tv_nsec = 1000000000 + end.tv_nsec - begin.tv_nsec;
-    } else {
-	tmp.tv_sec = end.tv_sec - begin.tv_sec;
-	tmp.tv_nsec = end.tv_nsec - begin.tv_nsec;
-    }
-    return tmp;
+	struct timespec tmp;
+
+	if ((end.tv_nsec - begin.tv_nsec) < 0) {
+		tmp.tv_sec = end.tv_sec - begin.tv_sec - 1;
+		tmp.tv_nsec = 1000000000 + end.tv_nsec - begin.tv_nsec;
+	} else {
+		tmp.tv_sec = end.tv_sec - begin.tv_sec;
+		tmp.tv_nsec = end.tv_nsec - begin.tv_nsec;
+	}
+
+	return tmp;
 }
 
 void
-rng_init (unsigned short rng[3])
+rng_init(unsigned short rng[3])
 {
-    struct timespec time;
-
-    // finally available in macos 10.12 as well!
-    clock_gettime(CLOCK_REALTIME, &time);
-
-    /* initialize seed */
-    rng[0] = time.tv_nsec;
-    rng[1] = time.tv_nsec >> 16;
-    rng[2] = time.tv_nsec >> 32;
-
+	struct timespec time;
+	// finally available in macos 10.12 as well!
+	clock_gettime(CLOCK_REALTIME, &time);
+	/* initialize seed */
+	rng[0] = time.tv_nsec;
+	rng[1] = time.tv_nsec >> 16;
+	rng[2] = time.tv_nsec >> 32;
 }

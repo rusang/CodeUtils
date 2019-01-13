@@ -30,24 +30,23 @@
 #define SQR(x) (x)*(x)
 
 #define max(a,b)		 \
-    ({ __typeof__ (a) _a = (a);	 \
-       __typeof__ (b) _b = (b);	 \
-       _a > _b ? _a : _b; })
+	({ __typeof__ (a) _a = (a);	 \
+		__typeof__ (b) _b = (b);	 \
+		_a > _b ? _a : _b; })
 
 #define min(a,b)		 \
-    ({ __typeof__ (a) _a = (a);	 \
-       __typeof__ (b) _b = (b);	 \
-       _a < _b ? _a : _b; })
+	({ __typeof__ (a) _a = (a);	 \
+		__typeof__ (b) _b = (b);	 \
+		_a < _b ? _a : _b; })
 
 
-typedef struct thread_args_s
-{
-    pthread_t thread;
-    int id;
-    unsigned short rng[3];
-    int measure;
-    int cycles;
-    char pad[128];
+typedef struct thread_args_s {
+	pthread_t thread;
+	int id;
+	unsigned short rng[3];
+	int measure;
+	int cycles;
+	char pad[128];
 } thread_args_t;
 
 
@@ -58,28 +57,28 @@ typedef struct thread_args_s
 
 
 #define E(c)                                                                    \
-    do {                                                                        \
-        int _c = (c);                                                           \
-	if (_c < 0) {                                                               \
-	    fprintf(stderr, "E: %s: %d: %s\n",                                      \
-                __FILE__, __LINE__, #c);                                        \
-	}                                                                           \
-    } while (0)
+	do {                                                                        \
+		int _c = (c);                                                           \
+		if (_c < 0) {                                                               \
+			fprintf(stderr, "E: %s: %d: %s\n",                                      \
+				__FILE__, __LINE__, #c);                                        \
+		}                                                                           \
+	} while (0)
 
 #define E_en(c)                                                                 \
-    do {                                                                        \
-        int _c = (c);                                                           \
-	if (_c != 0) {                                                              \
-	    fprintf(stderr, "%s", strerror(_c));                                    \
-	}                                                                           \
-    } while (0)
+	do {                                                                        \
+		int _c = (c);                                                           \
+		if (_c != 0) {                                                              \
+			fprintf(stderr, "%s", strerror(_c));                                    \
+		}                                                                           \
+	} while (0)
 
 #define E_NULL(c)               \
-    do {                        \
-	if ((c) == NULL) {			\
-	    perror("E_NULL");       \
-	}                           \
-    } while (0)
+	do {                        \
+		if ((c) == NULL) {			\
+			perror("E_NULL");       \
+		}                           \
+	} while (0)
 
 
 #if defined(__x86_64__)
@@ -87,14 +86,14 @@ typedef struct thread_args_s
 static inline uint64_t __attribute__((always_inline))
 read_tsc_p()
 {
-   uint64_t tsc;
-   __asm__ __volatile__ ("rdtscp\n"
-	 "shl $32, %%rdx\n"
-	 "or %%rdx, %%rax"
-	 : "=a"(tsc)
-	 :
-	 : "%rcx", "%rdx");
-   return tsc;
+	uint64_t tsc;
+	__asm__ __volatile__("rdtscp\n"
+			     "shl $32, %%rdx\n"
+			     "or %%rdx, %%rax"
+			     : "=a"(tsc)
+			     :
+			     : "%rcx", "%rdx");
+	return tsc;
 }
 
 /* compiler memory barrier */
@@ -114,7 +113,7 @@ extern pid_t gettid(void);
 extern void  pin(pid_t t, int cpu);
 #endif
 
-void rng_init (unsigned short rng[3]);
+void rng_init(unsigned short rng[3]);
 extern void gettime(struct timespec *t);
 extern struct timespec timediff(struct timespec, struct timespec);
 

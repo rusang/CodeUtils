@@ -13,23 +13,21 @@ typedef void         *pval_t;
 #define SENTINEL_KEYMAX (~1UL) /* Key value of last dummy node.  */
 
 
-typedef struct node_s
-{
-    pkey_t    k;
-    int       level;
-    int       inserting; //char pad2[4];
-    pval_t    v;
-    struct node_s *next[1];
+typedef struct node_s {
+	pkey_t    k;
+	int       level;
+	int       inserting; //char pad2[4];
+	pval_t    v;
+	struct node_s *next[1];
 } node_t;
 
-typedef struct
-{
-    int    max_offset;
-    int    max_level;
-    int    nthreads;
-    node_t *head;
-    node_t *tail;
-    char   pad[128];
+typedef struct {
+	int    max_offset;
+	int    max_level;
+	int    nthreads;
+	node_t *head;
+	node_t *tail;
+	char   pad[128];
 } pq_t;
 
 #define get_marked_ref(_p)      ((void *)(((uintptr_t)(_p)) | 1))

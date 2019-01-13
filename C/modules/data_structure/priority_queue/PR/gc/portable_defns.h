@@ -34,11 +34,11 @@ typedef int bool_t;
 #define TRUE  1
 
 #define ADD_TO(_v,_x)                                                   \
-do {                                                                    \
-    int __val = (_v), __newval;                                         \
-    while ( (__newval = CASIO(&(_v),__val,__val+(_x))) != __val )       \
-        __val = __newval;                                               \
-} while ( 0 )
+	do {                                                                    \
+		int __val = (_v), __newval;                                         \
+		while ( (__newval = CASIO(&(_v),__val,__val+(_x))) != __val )       \
+			__val = __newval;                                               \
+	} while ( 0 )
 
 /*
  * Allow us to efficiently align and pad structures so that shared fields
@@ -46,8 +46,8 @@ do {                                                                    \
  */
 #define CACHE_PAD(_n) char __pad ## _n [CACHE_LINE_SIZE]
 #define ALIGNED_ALLOC(_s)                                       \
-    ((void *)(((unsigned long)malloc((_s)+CACHE_LINE_SIZE*2) +  \
-        CACHE_LINE_SIZE - 1) & ~(CACHE_LINE_SIZE-1)))
+	((void *)(((unsigned long)malloc((_s)+CACHE_LINE_SIZE*2) +  \
+		   CACHE_LINE_SIZE - 1) & ~(CACHE_LINE_SIZE-1)))
 
 
 /*

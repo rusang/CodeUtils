@@ -1,6 +1,6 @@
 /******************************************************************************
  * ptst.h
- * 
+ *
  * Per-thread state management.
  *
  *
@@ -15,26 +15,25 @@ typedef struct ptst_st ptst_t;
 
 #include "gc.h"
 
-struct ptst_st
-{
-    /* Thread id */
-    unsigned int id;
-    /* State management */
-    ptst_t      *next;
-    unsigned int count;
+struct ptst_st {
+	/* Thread id */
+	unsigned int id;
+	/* State management */
+	ptst_t      *next;
+	unsigned int count;
 
-    /* Utility structures */
-    gc_t        *gc;
-    char pad[56];
-    unsigned int rand;
+	/* Utility structures */
+	gc_t        *gc;
+	char pad[56];
+	unsigned int rand;
 };
 
- /*
- * Enter/leave a critical region. A thread gets a state handle for
- * use during critical regions.
- */
+/*
+* Enter/leave a critical region. A thread gets a state handle for
+* use during critical regions.
+*/
 
-void critical_enter(void );
+void critical_enter(void);
 
 #define critical_exit() gc_exit(ptst)
 
