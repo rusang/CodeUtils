@@ -20,14 +20,14 @@ typedef int deque_val_type;
 typedef struct deque_struct deque_type;
 
 struct node_struct {
-    struct node_struct *next;
-    struct node_struct *prev;
-    deque_val_type val;
+	struct node_struct *next;
+	struct node_struct *prev;
+	deque_val_type val;
 };
 
 struct deque_struct {
-    struct node_struct *head;
-    struct node_struct *tail;
+	struct node_struct *head;
+	struct node_struct *tail;
 };
 
 #define DEQUE_HEAD(name) struct deque_struct name = {NULL, NULL}
