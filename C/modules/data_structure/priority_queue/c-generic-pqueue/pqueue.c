@@ -114,7 +114,6 @@ void pqueue_heapify(PQueue *q, size_t idx)
 	/* Left child exists, compare left child with its parent */
 	if (l_idx < q->size && q->cmp(q->data[l_idx], q->data[idx]) > 0)
 		lrg_idx = l_idx;
-
 	else
 		lrg_idx = idx;
 

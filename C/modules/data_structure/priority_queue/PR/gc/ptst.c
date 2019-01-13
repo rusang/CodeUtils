@@ -71,6 +71,7 @@ critical_enter()
 		do {
 			ptst->next = next = new_next;
 		} while ((new_next = __sync_val_compare_and_swap(&ptst_list, next,
+
 				     ptst)) != next);
 	}
 
